@@ -5,8 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 // Fix the code being tested to match requirements and make all tests pass. 
 
 [TestClass]
+
 public class TakingTurnsQueueTests
 {
+    // Defect(s) Found: The first person returned is Sue instead of Bob. The queue does not return people in the expected FIFO order.
     [TestMethod]
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
     // run until the queue is empty
@@ -39,6 +41,8 @@ public class TakingTurnsQueueTests
         }
     }
 
+
+    // Defect(s) Found: The first person returned is Sue instead of Bob. The queue does not return people in the expected FIFO order.
     [TestMethod]
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3)
     // After running 5 times, add George with 3 turns.  Run until the queue is empty.
@@ -81,6 +85,7 @@ public class TakingTurnsQueueTests
         }
     }
 
+    // Defect(s) Found: People with 0 turns were removed from the queue instead of being treated as having infinite turns.
     [TestMethod]
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
     // Run 10 times.
@@ -111,7 +116,7 @@ public class TakingTurnsQueueTests
         var infinitePerson = players.GetNextPerson();
         Assert.AreEqual(timTurns, infinitePerson.Turns, "People with infinite turns should not have their turns parameter modified to a very big number. A very big number is not infinite.");
     }
-
+    // Defect(s) Found: People with negative turns were removed from the queue instead of being treated as having infinite turns.
     [TestMethod]
     // Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
     // Run 10 times.
@@ -139,7 +144,8 @@ public class TakingTurnsQueueTests
         var infinitePerson = players.GetNextPerson();
         Assert.AreEqual(timTurns, infinitePerson.Turns, "People with infinite turns should not have their turns parameter modified to a very big number. A very big number is not infinite.");
     }
-
+    
+    // Defect(s) Found: No defect(s) found.
     [TestMethod]
     // Scenario: Try to get the next person from an empty queue
     // Expected Result: Exception should be thrown with appropriate error message.
