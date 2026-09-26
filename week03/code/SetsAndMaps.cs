@@ -21,8 +21,22 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var seen = new HashSet<string>();
+        var pairs = new List<string>();
+
+        foreach (var word in words)
+        {
+            var reverse = $"{word[1]}{word[0]}";
+
+            if (seen.Contains(reverse))
+            {
+                pairs.Add($"{reverse} & {word}");
+            }
+
+            seen.Add(word);
+        }
+
+        return pairs.ToArray();
     }
 
     /// <summary>
@@ -43,6 +57,17 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            var degree = fields[3];
+
+            if (!degrees.ContainsKey(degree))
+            {
+                degrees[degree] = 1;
+            }
+
+            else
+            {
+                degrees[degree] += 1;
+            }
         }
 
         return degrees;
@@ -67,7 +92,45 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        word1 = word1.ToLower().Replace(" ", "");
+        word2 = word2.ToLower().Replace(" ", "");
+
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        var letters = new Dictionary<char, int>();
+
+        foreach (var letter in word1)
+        {
+            if (!letters.ContainsKey(letter))
+            {
+                letters[letter] = 1;
+            }
+
+            else
+            {
+                letters[letter] += 1;
+            }
+        }
+
+        foreach (var letter in word2)
+        {
+            if (!letters.ContainsKey(letter))
+            {
+                return false;
+            }
+
+            letters[letter] -= 1;
+
+            if (letters[letter] < 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
